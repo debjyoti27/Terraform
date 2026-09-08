@@ -4,16 +4,16 @@
 #
 # Same profile can appear multiple times if one AWS account hosts several brands.
 accounts = [
-  { profile = "DhaniLoans",      brand = "dhani" },
-  { profile = "loaninseconds", brand = "loaninseconds" },
-  { profile = "mysalaryloan", brand = "mysalaryloan" },
-  { profile = "swiftpaisa",    brand = "swiftpaisa" },
-  { profile = "shublakshmi",    brand = "shublakshmi" },
+  { profile = "Aws_profile_name_1",      brand = "Brand-1" },
+  { profile = "Aws_profile_name_2",      brand = "Brand-2" },
+  { profile = "Aws_profile_name_3",      brand = "Brand-3" },
+  { profile = "Aws_profile_name_4",      brand = "Brand-4" },
+  { profile = "Aws_profile_name_5",      brand = "Brand-5" },
 ]
 
 # Used only when you run terraform manually (not via run.sh).
-brand   = "dhani"
-profile = "DhaniLoans"
+brand   = "Brand"
+profile = "Aws_profile_name"
 
 # ── Queue defaults ─────────────────────────────────────────────────────────────
 # Applied to every queue. A queue block only needs to set what's different.
