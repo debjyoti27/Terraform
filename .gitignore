@@ -1,0 +1,22 @@
+# Terraform plugin cache and working directories (one per brand)
+.terraform.*
+
+# State files contain account IDs and resource metadata — never commit
+state/
+
+# Generated env files contain queue URLs — never commit
+env/
+
+# Plan artefacts
+*.tfplan
+.tfplan.*.tmp
+
+# Standard Terraform ignores
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json

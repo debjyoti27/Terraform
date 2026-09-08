@@ -1,0 +1,59 @@
+# ── Accounts ──────────────────────────────────────────────────────────────────
+# profile = AWS CLI profile name (must match ~/.aws/config exactly)
+# brand   = suffix added to every queue name  e.g. underwriting-queue-dhani
+#
+# Same profile can appear multiple times if one AWS account hosts several brands.
+accounts = [
+  { profile = "DhaniLoans",      brand = "dhani" },
+  { profile = "loaninseconds", brand = "loaninseconds" },
+  { profile = "mysalaryloan", brand = "mysalaryloan" },
+  { profile = "swiftpaisa",    brand = "swiftpaisa" },
+  { profile = "shublakshmi",    brand = "shublakshmi" },
+]
+
+# Used only when you run terraform manually (not via run.sh).
+brand   = "dhani"
+profile = "DhaniLoans"
+
+# ── Queue defaults ─────────────────────────────────────────────────────────────
+# Applied to every queue. A queue block only needs to set what's different.
+# fifo = false  →  standard queue (default)
+# fifo = true   →  FIFO queue — ordered delivery, name gets .fifo suffix
+queue_defaults = {
+  dlq                        = true
+  fifo                       = false
+  use_aws_defaults           = false
+  visibility_timeout_seconds = 60
+}
+
+# ── Queues ────────────────────────────────────────────────────────────────────
+# Queue names:  <key>-queue-<brand>   and   <key>-dlq-<brand>
+# Only set fields that differ from queue_defaults above.
+queues = {
+  "onboarding-pan" = {
+    env_var_name = "SQS_ONBOARDING_PAN_QUEUE_URL"
+    extra_env    = { ONBOARDING_FANOUT_ENABLED = "true" }
+  }
+
+  "onboarding-fraud" = {
+    env_var_name = "SQS_ONBOARDING_FRAUD_QUEUE_URL"
+    extra_env    = { ONBOARDING_FANOUT_ENABLED = "true" }
+  }
+
+  underwriting = {
+    visibility_timeout_seconds = 180
+    env_var_name               = "SQS_UNDERWRITING_QUEUE_URL"
+    extra_env = {
+      UNDERWRITING_FANOUT_ENABLED      = "true"
+      UNDERWRITING_RERUN_GUARD_MINUTES = "30"
+    }
+  }
+
+  geocode = {
+    env_var_name = "SQS_GEOCODE_QUEUE_URL"
+    extra_env = {
+      GEOCODE_FANOUT_ENABLED = "true"
+      GEOCODE_TIMEOUT_MS     = "5000"
+    }
+  }
+}
